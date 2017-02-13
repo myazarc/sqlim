@@ -1,5 +1,5 @@
 {
-  "name": "nodeSql",
+  "name": "nodesql",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/myazarc/nodeSql.git"
+    "url": "git+https://github.com/myazarc/nodesql.git"
   },
   "keywords": [
     "activeRecod",
@@ -22,7 +22,7 @@
   "author": "Mustafa Yazar <myazarc@gmail.com> (http://myazarc.com/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/myazarc/nodeSql/issues"
+    "url": "https://github.com/myazarc/nodesql/issues"
   },
-  "homepage": "https://github.com/myazarc/nodeSql#readme"
+  "homepage": "https://github.com/myazarc/nodesql#readme"
 }
