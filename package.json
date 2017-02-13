@@ -1,5 +1,5 @@
 {
-  "name": "nodesql",
+  "name": "sqlim",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/myazarc/nodesql.git"
+    "url": "git+https://github.com/myazarc/sqlim.git"
   },
   "keywords": [
     "activeRecod",
@@ -22,7 +22,7 @@
   "author": "Mustafa Yazar <myazarc@gmail.com> (http://myazarc.com/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/myazarc/nodesql/issues"
+    "url": "https://github.com/myazarc/sqlim/issues"
   },
-  "homepage": "https://github.com/myazarc/nodesql#readme"
+  "homepage": "https://github.com/myazarc/sqlim#readme"
 }

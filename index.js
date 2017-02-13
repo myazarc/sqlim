@@ -1,51 +1,51 @@
 var sprintf=require('sprintf').sprintf;
 var mysql      = require('mysql');
 
-const nodeSql={};
+const sqlim={};
 
-nodeSql.dataBase={};
+sqlim.dataBase={};
 
-nodeSql._dbConn=null;
+sqlim._dbConn=null;
 
-nodeSql.dataBase.host='localhost';
-nodeSql.dataBase.user='root';
-nodeSql.dataBase.pass='';
-nodeSql.dataBase.name='';
+sqlim.dataBase.host='localhost';
+sqlim.dataBase.user='root';
+sqlim.dataBase.pass='';
+sqlim.dataBase.name='';
 
-nodeSql.connectMysql=function () {
-    nodeSql._dbConn = mysql.createConnection({
-        host     : nodeSql.dataBase.host,
-        user     : nodeSql.dataBase.user,
-        password : nodeSql.dataBase.pass,
-        database : nodeSql.dataBase.name
+sqlim.connectMysql=function () {
+    this._dbConn = mysql.createConnection({
+        host     : sqlim.dataBase.host,
+        user     : sqlim.dataBase.user,
+        password : sqlim.dataBase.pass,
+        database : sqlim.dataBase.name
     });
 
-    nodeSql._dbConn.connect();
+    this._dbConn.connect();
 };
 
-nodeSql.query=function (sql,callback) {
+sqlim.query=function (sql,callback) {
     this._dbConn.query(sql,callback);
     this.clear();
 };
 
-nodeSql.storage={};
+sqlim.storage={};
 
-nodeSql.storage._sql="";
-nodeSql.storage._where="where";
-nodeSql.storage._whereCount=0;
-nodeSql.storage._from="";
-nodeSql.storage._fromCount=0;
-nodeSql.storage._select="";
-nodeSql.storage._selectCount=0;
-nodeSql.storage._join="";
-nodeSql.storage._limit="";
-nodeSql.storage._orderby="";
-nodeSql.storage._orderbyCount=0;
-nodeSql.storage._groupby="";
-nodeSql.storage._groupbyCount=0;
+sqlim.storage._sql="";
+sqlim.storage._where="where";
+sqlim.storage._whereCount=0;
+sqlim.storage._from="";
+sqlim.storage._fromCount=0;
+sqlim.storage._select="";
+sqlim.storage._selectCount=0;
+sqlim.storage._join="";
+sqlim.storage._limit="";
+sqlim.storage._orderby="";
+sqlim.storage._orderbyCount=0;
+sqlim.storage._groupby="";
+sqlim.storage._groupbyCount=0;
 
 
-nodeSql.where=function(fieldName,value){
+sqlim.where=function(fieldName,value){
     if(this.storage._whereCount){
         this.storage._where+=sprintf(' and %s=%s',fieldName,value);
     }else{
@@ -55,7 +55,7 @@ nodeSql.where=function(fieldName,value){
     return this;
 };
 
-nodeSql.where_or=function(fieldName,value){
+sqlim.where_or=function(fieldName,value){
     if(this.storage._whereCount){
         this.storage._where+=sprintf(' or %s=%s',fieldName,value);
     }else{
@@ -65,7 +65,7 @@ nodeSql.where_or=function(fieldName,value){
     return this;
 };
 
-nodeSql.where_like=function(fieldName,value){
+sqlim.where_like=function(fieldName,value){
     if(this.storage._whereCount){
         this.storage._where+=sprintf(' and %s like %s',fieldName,value);
     }else{
@@ -75,7 +75,7 @@ nodeSql.where_like=function(fieldName,value){
     return this;
 };
 
-nodeSql.where_like_or=function(fieldName,value){
+sqlim.where_like_or=function(fieldName,value){
     if(this.storage._whereCount){
         this.storage._where+=sprintf(' or %s like %s',fieldName,value);
     }else{
@@ -85,7 +85,7 @@ nodeSql.where_like_or=function(fieldName,value){
     return this;
 };
 
-nodeSql.from=function(tableName){
+sqlim.from=function(tableName){
     if(this.storage._fromCount){
         this.storage._from+=sprintf(',%s',tableName);
     }else{
@@ -95,7 +95,7 @@ nodeSql.from=function(tableName){
     return this;
 };
 
-nodeSql.select=function(fieldName){
+sqlim.select=function(fieldName){
     if(this.storage._selectCount){
         this.storage._select+=sprintf(',%s',fieldName);
     }else{
@@ -105,24 +105,24 @@ nodeSql.select=function(fieldName){
     return this;
 };
 
-nodeSql.join=function(tableName,fields){
+sqlim.join=function(tableName,fields){
         this.storage._join+=sprintf('JOIN %s on %s',tableName,fields);
     return this;
 };
 
-nodeSql.join_left=function(tableName,fields){
+sqlim.join_left=function(tableName,fields){
     this.storage._join+=sprintf('LEFT JOIN %s on %s',tableName,fields);
     return this;
 };
 
-nodeSql.join_right=function(tableName,fields){
+sqlim.join_right=function(tableName,fields){
     this.storage._join+=sprintf('RIGHT JOIN %s on %s',tableName,fields);
     return this;
 };
 
 
 
-nodeSql.getSql=function () {
+sqlim.getSql=function () {
 
     if(!this.storage._selectCount){
         this.storage._select='*';
@@ -138,7 +138,7 @@ nodeSql.getSql=function () {
 
 };
 
-nodeSql.orderby=function(fieldName,type){
+sqlim.orderby=function(fieldName,type){
     var t=type || 'asc';
     if(this.storage._orderbyCount){
         this.storage._orderby+=sprintf(',%s %s',fieldName,t);
@@ -149,7 +149,7 @@ nodeSql.orderby=function(fieldName,type){
     return this;
 };
 
-nodeSql.groupby=function(fieldName){
+sqlim.groupby=function(fieldName){
     if(this.storage._groupbyCount){
         this.storage._groupby+=sprintf(',%s',fieldName);
     }else{
@@ -159,20 +159,20 @@ nodeSql.groupby=function(fieldName){
     return this;
 };
 
-nodeSql.clear=function(){
-    nodeSql.storage._sql="";
-    nodeSql.storage._where="where";
-    nodeSql.storage._whereCount=0;
-    nodeSql.storage._from="";
-    nodeSql.storage._fromCount=0;
-    nodeSql.storage._select="";
-    nodeSql.storage._selectCount=0;
-    nodeSql.storage._join="";
-    nodeSql.storage._limit="";
-    nodeSql.storage._orderby="";
-    nodeSql.storage._orderbyCount=0;
-    nodeSql.storage._groupby="";
-    nodeSql.storage._groupbyCount=0;
+sqlim.clear=function(){
+    sqlim.storage._sql="";
+    sqlim.storage._where="where";
+    sqlim.storage._whereCount=0;
+    sqlim.storage._from="";
+    sqlim.storage._fromCount=0;
+    sqlim.storage._select="";
+    sqlim.storage._selectCount=0;
+    sqlim.storage._join="";
+    sqlim.storage._limit="";
+    sqlim.storage._orderby="";
+    sqlim.storage._orderbyCount=0;
+    sqlim.storage._groupby="";
+    sqlim.storage._groupbyCount=0;
 
     return this;
 };
@@ -187,7 +187,7 @@ nodeSql.clear=function(){
         console.log(results);
     }
  */
-nodeSql.get=function (tableName,callback) {
+sqlim.get=function (tableName,callback) {
 
     if (typeof tableName=="function"){
         this.query(this.getSql(),tableName);
@@ -205,12 +205,12 @@ nodeSql.get=function (tableName,callback) {
  *      if (error) throw error;
  *   }
  */
-nodeSql.insert=function (tableName,data,cb) {
+sqlim.insert=function (tableName,data,cb) {
     this._dbConn.query(sprintf('INSERT INTO %s SET ?',tableName), data, cb);
     this.clear();
 };
 
-nodeSql.update=function (tableName,data,cb) {
+sqlim.update=function (tableName,data,cb) {
     var where='';
     if(this.storage._whereCount){
         where=this.storage._where;
@@ -219,7 +219,7 @@ nodeSql.update=function (tableName,data,cb) {
     this.clear();
 };
 
-nodeSql.delete=function (tableName,data,cb) {
+sqlim.delete=function (tableName,data,cb) {
     var where='';
     if(this.storage._whereCount){
         where=this.storage._where;
@@ -228,4 +228,4 @@ nodeSql.delete=function (tableName,data,cb) {
     this.clear();
 };
 
-module.exports=nodeSql;
+module.exports=sqlim;
