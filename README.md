@@ -5,7 +5,7 @@ Basic Db Queries for mysql
 ## Installation
 
 ```sh
-npm install myazarc/sqlim -g
+npm install sqlim
 ```
 
 ## Usage
