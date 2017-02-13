@@ -10,7 +10,7 @@ nodeSql._dbConn=null;
 nodeSql.dataBase.host='localhost';
 nodeSql.dataBase.user='root';
 nodeSql.dataBase.pass='';
-nodeSql.dataBase.name='suem';
+nodeSql.dataBase.name='';
 
 nodeSql.connectMysql=function () {
     nodeSql._dbConn = mysql.createConnection({
