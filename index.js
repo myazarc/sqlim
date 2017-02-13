@@ -25,6 +25,7 @@ nodeSql.connectMysql=function () {
 
 nodeSql.query=function (sql,callback) {
     this._dbConn.query(sql,callback);
+    this.clear();
 };
 
 nodeSql.storage={};
@@ -158,6 +159,24 @@ nodeSql.groupby=function(fieldName){
     return this;
 };
 
+nodeSql.clear=function(){
+    nodeSql.storage._sql="";
+    nodeSql.storage._where="where";
+    nodeSql.storage._whereCount=0;
+    nodeSql.storage._from="";
+    nodeSql.storage._fromCount=0;
+    nodeSql.storage._select="";
+    nodeSql.storage._selectCount=0;
+    nodeSql.storage._join="";
+    nodeSql.storage._limit="";
+    nodeSql.storage._orderby="";
+    nodeSql.storage._orderbyCount=0;
+    nodeSql.storage._groupby="";
+    nodeSql.storage._groupbyCount=0;
+
+    return this;
+};
+
 /**
  *
  * @param tableName
@@ -169,8 +188,13 @@ nodeSql.groupby=function(fieldName){
     }
  */
 nodeSql.get=function (tableName,callback) {
-    this.from(tableName);
-    this.query(this.getSql(),callback);
+
+    if (typeof tableName=="function"){
+        this.query(this.getSql(),tableName);
+    }else{
+        this.from(tableName);
+        this.query(this.getSql(),callback);
+    }
 };
 /**
  *
@@ -183,6 +207,7 @@ nodeSql.get=function (tableName,callback) {
  */
 nodeSql.insert=function (tableName,data,cb) {
     this._dbConn.query(sprintf('INSERT INTO %s SET ?',tableName), data, cb);
+    this.clear();
 };
 
 nodeSql.update=function (tableName,data,cb) {
@@ -191,6 +216,16 @@ nodeSql.update=function (tableName,data,cb) {
         where=this.storage._where;
     }
     this._dbConn.query(sprintf('UPDATE %s SET ? '+where,tableName), data, cb);
+    this.clear();
+};
+
+nodeSql.delete=function (tableName,data,cb) {
+    var where='';
+    if(this.storage._whereCount){
+        where=this.storage._where;
+    }
+    this._dbConn.query(sprintf('DELETE FROM %s '+where,tableName), cb);
+    this.clear();
 };
 
 module.exports=nodeSql;
