@@ -29,7 +29,7 @@ sqlim.connect();
 * join
 * join_left
 * join_right
-* get_sql
+* getSql
 * orderby
 * groupby
 * clear
@@ -93,14 +93,14 @@ sqlim.join_right('tablename t','t.ID=m.FIELD');
 // SQL: right join tablename t on t.ID=m.FIELD
 ```
 
-##### get_sql
+##### getSql
 ```js
 sqlim.select('ID,NAME,USERNAME')
        .select('EMAIL')
        .where('ID',2)
        .where('ISADMIN',1)
        .from('users');
-var sql=sqlim.get_sql();
+var sql=sqlim.getSql();
 // OUTPUT sql: select ID,NAME,USERNAME,EMAIL from users where ID=2 and ISADMIN=2
 ```
 
